@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using CustomStatusCodes;
 using Microsoft.AspNet.Builder;
 
@@ -6,7 +6,7 @@ namespace StatusCodeSample
 {
     public class Startup
     {
-	    public void Configure(IBuilder app)
+	    public void Configure(IApplicationBuilder app)
 	    {
             app.UseKittenStatusCodes();
             // app.UsePuppyStatusCodes();
@@ -17,7 +17,8 @@ namespace StatusCodeSample
             app.Run(context =>
             {
                 context.Response.StatusCode = 404;
-                return context.Response.WriteAsync("Normal Not Found Page");
+                var data = System.Text.Encoding.UTF8.GetBytes("Normal Not Found Page");
+                return context.Response.Body.WriteAsync(data,0,data.Length);
             });
 	    }
     }

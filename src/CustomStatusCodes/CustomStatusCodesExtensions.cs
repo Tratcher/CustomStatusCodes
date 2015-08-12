@@ -7,12 +7,12 @@ namespace Microsoft.AspNet.Builder
 {
     public static class CustomStatusCodesExtensions
     {
-        public static IBuilder UseKittenStatusCodes(this IBuilder app)
+        public static IApplicationBuilder UseKittenStatusCodes(this IApplicationBuilder app)
         {
             return app.UseCustomStatusCodes(new LinkedImagePageGenerator(KittenLinks.Create()).GenerateAsync);
         }
 
-        public static IBuilder UseKittenStatusCodes(this IBuilder app, CustomStatusCodesOptions options)
+        public static IApplicationBuilder UseKittenStatusCodes(this IApplicationBuilder app, CustomStatusCodesOptions options)
         {
             if (options.ResponseGenerator == null)
             {
@@ -21,12 +21,12 @@ namespace Microsoft.AspNet.Builder
             return app.UseCustomStatusCodes(options);
         }
 
-        public static IBuilder UsePuppyStatusCodes(this IBuilder app)
+        public static IApplicationBuilder UsePuppyStatusCodes(this IApplicationBuilder app)
         {
             return app.UseCustomStatusCodes(new LinkedImagePageGenerator(PuppyLinks.Create()).GenerateAsync);
         }
 
-        public static IBuilder UsePuppyStatusCodes(this IBuilder app, CustomStatusCodesOptions options)
+        public static IApplicationBuilder UsePuppyStatusCodes(this IApplicationBuilder app, CustomStatusCodesOptions options)
         {
             if (options.ResponseGenerator == null)
             {
@@ -35,12 +35,12 @@ namespace Microsoft.AspNet.Builder
             return app.UseCustomStatusCodes(options);
         }
 
-        public static IBuilder UseCustomStatusCodes(this IBuilder app, Func<HttpContext, Task> responseGenerator)
+        public static IApplicationBuilder UseCustomStatusCodes(this IApplicationBuilder app, Func<HttpContext, Task> responseGenerator)
         {
             return app.UseCustomStatusCodes(new CustomStatusCodesOptions() { ResponseGenerator = responseGenerator });
         }
 
-        public static IBuilder UseCustomStatusCodes(this IBuilder app, CustomStatusCodesOptions options)
+        public static IApplicationBuilder UseCustomStatusCodes(this IApplicationBuilder app, CustomStatusCodesOptions options)
         {
             return app.Use(next => new CustomStatusCodesMiddleware(next, options).Invoke);
         }
